@@ -12,13 +12,13 @@ myclient = MongoClient(mongo_uri)
 
 db = myclient[mongo_db]
 
-Collection = db[mongo_collection]
+collection = db[mongo_collection]
 
 with open("suspicious_customers_orders.json") as file:
     file_data = json.load(file)
 
 
-ins_result = Collection.insert_many(file_data)
+ins_result = collection.insert_many(file_data)
 
 
 
