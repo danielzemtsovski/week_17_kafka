@@ -38,6 +38,34 @@ services:
     volumes:
       - mongo_data:/data/db
 
+
+  publisher:
+    build: ./producer
+    depends_on:
+      - mongodb
+      - kafka
+    environment:
+      MONGO_URI: "mongodb://root:root123@mongo:27017/"
+      MONGO_DB: "db"
+      MONGO_COLLECTION: "collection"
+      KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+      KAFKA_TOPIC: "week_17_topic"
+  
+
+  consumer:
+    build: ./consumer
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root123
+      DB_NAME: DB_WEEK_17
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_TOPIC: week_17_topic
+    depends_on:
+      - kafka
+      - mysql
+
 volumes:
   mongo_data:
   kafka_kraft:
